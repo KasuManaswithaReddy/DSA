@@ -1,0 +1,99 @@
+// Maximum Rectangular Area in a Histogram.
+
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+
+// } Driver Code Ends
+class Solution
+{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    vector <long long int> nextSmallerel(long long arr[], int n){
+        stack<long long int> s ;
+        s.push(-1);
+        vector<long long int> ans(n) ;
+        for(int i = n-1 ; i >= 0 ; i--){
+            int curr = arr[i];      
+            while(s.top()!= -1 && arr[s.top()] >= curr){
+                    s.pop();
+                                
+            }
+            // ans is stack's top
+            ans[i] = s.top();
+            s.push(i);      
+            
+        }
+        return ans ;
+    }
+    vector<long long int> prevSmallerel(long long arr[], int n){
+        stack<long long int> s ;
+        s.push(-1);
+        vector<long long int> ans(n) ;
+        for(int i =0 ; i <n ; i++){
+            int curr = arr[i];      
+            while(s.top()!= -1 && arr[s.top()] >= curr){
+                    s.pop();
+                                
+            }
+            // ans is stack's top
+            ans[i] = s.top();
+            s.push(i);      
+            
+        }
+        return ans ;
+    }
+    
+    long long getMaxArea(long long arr[], int n)
+    {
+        // Your code here
+        vector<long long int> next(n) ;
+        next =  nextSmallerel(arr , n ) ;
+        
+        vector<long long int> prev(n) ;
+        prev =  prevSmallerel(arr ,n) ; 
+        
+        // next and prev vector contains the index of exactly next and prev smaller block index
+        
+        long long int area =  INT_MIN ;
+        for(int i = 0  ; i < n ; i++){
+            long long int l =  arr[i] ;
+            if(next[i] == -1){
+                next[i] = n ;
+                
+            }
+            long long  int b =  next[i] - prev[i] -1 ;
+            
+            long long int newans =  l*b ;
+            area =  max(area , newans) ;
+        }
+        
+        return area ;
+    }
+};
+
+
+//{ Driver Code Starts.
+
+int main()
+ {
+    long long t;
+
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        
+        long long arr[n];
+        for(int i=0;i<n;i++)
+            cin>>arr[i];
+        Solution ob;
+        cout<<ob.getMaxArea(arr, n)<<endl;
+    
+    }
+	return 0;
+}
+
+// } Driver Code Ends
