@@ -1,0 +1,41 @@
+// Postorder Traversal
+
+//User function Template for C++
+
+/* A binary tree node has data, pointer to left child
+   and a pointer to right child  
+struct Node
+{
+    int data;
+    struct Node* left;
+    struct Node* right;
+}; */
+
+//Function to return a list containing the postorder traversal of the tree.
+void solve(Node* root, vector<int>& ans) {
+ if (root == NULL)
+        return;
+
+    stack<Node*> s;
+    s.push(root);
+
+    while (!s.empty()) {
+        Node* curr = s.top();
+        s.pop();
+        ans.push_back(curr->data);
+
+        if (curr->left)
+            s.push(curr->left);
+
+        if (curr->right)
+            s.push(curr->right);
+    }
+
+    reverse(ans.begin(), ans.end());
+}
+
+vector<int> postOrder(Node* node) {
+    vector<int> ans;
+    solve(node, ans);
+    return ans;
+    }
