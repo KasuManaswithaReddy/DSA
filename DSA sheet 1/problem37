@@ -1,0 +1,40 @@
+//Fractional Knapsack problem
+
+class Solution
+{
+    public:
+    //Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(int W, Item arr[], int n)
+    {
+           vector<pair<double , Item>>ans ; 
+            
+            for(int i = 0 ; i < n ; i++){
+                double firs = (double)(arr[i].value)/(double)(arr[i].weight) ; 
+                ans.push_back({firs , arr[i]}); 
+            }
+            
+            
+            auto cmp = [&](pair<double , Item>p1 , pair<double , Item>p2 ){
+                return p1.first > p2.first ; 
+            }; 
+            
+            sort(ans.begin() ,ans.end() , cmp ) ; 
+         
+         double Final_ans = 0;  
+          
+            for(int i = 0 ; i<n ; i++){
+                if(ans[i].second.weight <= W ){
+                    Final_ans += ans[i].second.value ; 
+                    W = W - ans[i].second.weight ; 
+                }
+                else{
+                     Final_ans += (ans[i].first)*W  ;
+                     W =  0 ; break ; 
+                }
+            }
+            
+            
+            
+            return Final_ans ; 
+            }
+      };
